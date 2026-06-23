@@ -14,6 +14,8 @@ export function AppShell(content) {
           h('span', {}, APP_NAME)
         ),
         h('div', { class: 'header-actions' },
+          h('a', { class: 'header-pill', href: '#/comparativas' }, 'Comparativas'),
+          h('a', { class: 'header-pill', href: '#/historico' }, 'Histórico'),
           h('a', { class: 'header-pill', href: '#/buscar' }, 'Buscar día'),
           ThemeToggle()
         )
