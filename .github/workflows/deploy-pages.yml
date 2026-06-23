@@ -1,0 +1,87 @@
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Generate runtime API config
+        env:
+          LUZ_API_BASE: ${{ vars.LUZ_API_BASE || 'https://alon.one/api/luz' }}
+          LUZ_API_KEY: ${{ secrets.LUZ_API_KEY || vars.LUZ_API_KEY }}
+          LUZ_API_KEY_HEADER: ${{ vars.LUZ_API_KEY_HEADER || 'Authorization' }}
+          LUZ_AUTH_SCHEME: ${{ vars.LUZ_AUTH_SCHEME || 'Bearer' }}
+          LUZ_API_KEY_PARAM: ${{ vars.LUZ_API_KEY_PARAM || '' }}
+          LUZ_VALOR_UNIT: ${{ vars.LUZ_VALOR_UNIT || 'auto' }}
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+
+          function clean(value) {
+            const text = String(value || '').trim();
+            return ['none', 'false', 'off', 'query'].includes(text.toLowerCase()) ? '' : text;
+          }
+
+          let apiKeyHeader = clean(process.env.LUZ_API_KEY_HEADER || 'Authorization');
+          let authScheme = clean(process.env.LUZ_AUTH_SCHEME || (apiKeyHeader.toLowerCase() === 'authorization' ? 'Bearer' : ''));
+          let apiKeyParam = String(process.env.LUZ_API_KEY_PARAM || '').trim();
+
+          // Para usar la alternativa GET del backend, configura:
+          // LUZ_API_KEY_HEADER=query
+          // opcionalmente LUZ_API_KEY_PARAM=api_key
+          if (!apiKeyHeader) {
+            authScheme = '';
+            apiKeyParam = apiKeyParam || 'api_key';
+          }
+
+          if (apiKeyHeader.toLowerCase() !== 'authorization' && authScheme.toLowerCase() === 'bearer') {
+            authScheme = '';
+          }
+
+          const config = {
+            apiBase: process.env.LUZ_API_BASE || 'https://alon.one/api/luz',
+            apiKey: process.env.LUZ_API_KEY || '',
+            apiKeyHeader,
+            authScheme,
+            apiKeyParam,
+            valorUnit: process.env.LUZ_VALOR_UNIT || 'auto'
+          };
+
+          fs.writeFileSync(
+            'config.generated.js',
+            `window.LUZ_CONFIG = Object.assign({}, window.LUZ_CONFIG || {}, ${JSON.stringify(config, null, 2)});\n`
+          );
+          NODE
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
