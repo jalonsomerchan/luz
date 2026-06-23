@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Luz al día">
+  <defs>
+    <linearGradient id="bg" x1="80" y1="40" x2="430" y2="480" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#dcfce7"/>
+      <stop offset="0.55" stop-color="#fef9c3"/>
+      <stop offset="1" stop-color="#fee2e2"/>
+    </linearGradient>
+    <linearGradient id="bolt" x1="185" y1="90" x2="335" y2="420" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#facc15"/>
+      <stop offset="1" stop-color="#ef4444"/>
+    </linearGradient>
+  </defs>
+  <rect x="32" y="32" width="448" height="448" rx="116" fill="url(#bg)"/>
+  <path d="M284 64 140 286h103l-21 162 150-234H264l20-150Z" fill="url(#bolt)" stroke="#071311" stroke-width="18" stroke-linejoin="round"/>
+  <circle cx="164" cy="348" r="26" fill="#22c55e"/>
+  <circle cx="248" cy="348" r="26" fill="#facc15"/>
+  <circle cx="332" cy="348" r="26" fill="#ef4444"/>
+</svg>

@@ -1,0 +1,17 @@
+{
+  "name": "Luz al día",
+  "short_name": "Luz",
+  "description": "Precio de la luz por horas, días, semanas y meses.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#071311",
+  "theme_color": "#071311",
+  "icons": [
+    {
+      "src": "./assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
