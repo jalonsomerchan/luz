@@ -2,7 +2,9 @@ import { HomePage } from './pages/homePage.js';
 import { WeekPage } from './pages/weekPage.js';
 import { MonthPage } from './pages/monthPage.js';
 import { SearchPage } from './pages/searchPage.js';
+import { ComparePage } from './pages/comparePage.js';
 import { StatsPage } from './pages/statsPage.js';
+import { HistoryPage } from './pages/historyPage.js';
 import { NotFoundPage } from './pages/notFoundPage.js';
 
 function cleanHash() {
@@ -23,7 +25,9 @@ function parseRoute() {
   if (parts[0] === 'semana') return { page: WeekPage, params: {} };
   if (parts[0] === 'mes') return { page: MonthPage, params: {} };
   if (parts[0] === 'buscar') return { page: SearchPage, params: { query: queryParams() } };
+  if (parts[0] === 'comparativas') return { page: ComparePage, params: {} };
   if (parts[0] === 'estadisticas') return { page: StatsPage, params: {} };
+  if (parts[0] === 'historico') return { page: HistoryPage, params: {} };
   return { page: NotFoundPage, params: {} };
 }
 
