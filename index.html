@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#071311">
-    <meta name="description" content="Consulta el precio de la luz por horas: hoy, semana, mes, estadísticas y buscador de días.">
+    <meta name="description" content="Consulta el precio de la luz por horas: hoy, semana, mes, comparativas, histórico completo, estadísticas y buscador de días.">
     <title>Luz al día · Precio de la luz por horas</title>
     <link rel="manifest" href="./manifest.webmanifest">
     <link rel="icon" href="./assets/icon.svg" type="image/svg+xml">
@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="./src/styles/base.css">
     <link rel="stylesheet" href="./src/styles/layout.css">
     <link rel="stylesheet" href="./src/styles/components.css">
+    <link rel="stylesheet" href="./src/styles/advanced.css">
   </head>
   <body>
     <noscript>Necesitas activar JavaScript para consultar el precio de la luz.</noscript>
@@ -23,6 +24,13 @@
         .then((code) => {
           if (code.trim()) {
             (0, eval)(code);
+          }
+          window.LUZ_CONFIG = window.LUZ_CONFIG || {};
+          if (!window.LUZ_CONFIG.valorUnit || window.LUZ_CONFIG.valorUnit === 'auto') {
+            window.LUZ_CONFIG.valorUnit = 'eur_mwh';
+          }
+          if (!window.LUZ_CONFIG.historicalStartDate) {
+            window.LUZ_CONFIG.historicalStartDate = '2000-01-01';
           }
         })
         .catch(() => {});
