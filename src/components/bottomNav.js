@@ -4,8 +4,10 @@ const items = [
   { href: '#/', path: '/', icon: '⌁', label: 'Hoy' },
   { href: '#/semana', path: '/semana', icon: '▦', label: 'Semana' },
   { href: '#/mes', path: '/mes', icon: '◫', label: 'Mes' },
-  { href: '#/buscar', path: '/buscar', icon: '⌕', label: 'Buscar' },
-  { href: '#/estadisticas', path: '/estadisticas', icon: '↗', label: 'Stats' }
+  { href: '#/comparativas', path: '/comparativas', icon: '⇄', label: 'Comparar' },
+  { href: '#/estadisticas', path: '/estadisticas', icon: '↗', label: 'Stats' },
+  { href: '#/historico', path: '/historico', icon: '≋', label: 'Histórico' },
+  { href: '#/buscar', path: '/buscar', icon: '⌕', label: 'Buscar' }
 ];
 
 function currentPath() {
