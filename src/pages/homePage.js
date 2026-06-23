@@ -1,7 +1,7 @@
 import { Api } from '../services/api.js';
 import { h, clear, loading, errorBox } from '../utils/dom.js';
 import { todayIso, longDateLabel, currentHour } from '../utils/dates.js';
-import { centsKwh, euroKwh, hourLabel } from '../utils/format.js';
+import { centsKwh, hourLabel } from '../utils/format.js';
 import { analyzeDay, bestConsecutiveBlock, cheapestHours, periodMeta } from '../utils/electricity.js';
 import { PriceChart } from '../components/priceChart.js';
 import { PriceTable } from '../components/priceTable.js';
@@ -19,9 +19,9 @@ function CheapAlert(items) {
       h('p', {}, 'Aprovecha estas franjas para lavadora, lavavajillas, termo o carga del coche.'),
       h('div', { class: 'cheap-list' }, cheap.map((item) => {
         const meta = periodMeta(item.period);
-        return h('span', { class: `cheap-pill ${meta.className}` }, `${hourLabel(item.hour)} · ${centsKwh(item.priceKwh)}`);
+        return h('span', { class: 'cheap-pill ' + meta.className }, hourLabel(item.hour) + ' · ' + centsKwh(item.priceKwh));
       })),
-      block ? h('p', { class: 'block-tip' }, `Mejor bloque de 3 horas: ${hourLabel(block.start.hour).split('-')[0]} a ${hourLabel(block.end.hour).split('-')[1]} · media ${centsKwh(block.average)}.`) : null
+      block ? h('p', { class: 'block-tip' }, 'Mejor bloque de 3 horas: ' + hourLabel(block.start.hour).split('-')[0] + ' a ' + hourLabel(block.end.hour).split('-')[1] + ' · media ' + centsKwh(block.average) + '.') : null
     )
   );
 }
@@ -60,14 +60,14 @@ export function HomePage() {
             h('h1', {}, longDateLabel(today)),
             h('p', {}, 'Consulta las 24 horas del día, detecta las horas baratas y compara los tramos P3, P2 y P1.')
           ),
-          h('div', { class: `hero-price ${currentMeta?.className || ''}` },
-            h('span', {}, current ? `Ahora · ${hourLabel(current.hour)}` : 'Ahora'),
+          h('div', { class: 'hero-price ' + (currentMeta?.className || '') },
+            h('span', {}, current ? 'Ahora · ' + hourLabel(current.hour) : 'Ahora'),
             h('strong', {}, current ? centsKwh(current.priceKwh) : '—'),
-            h('small', {}, current ? `${current.period} · ${currentMeta.name}` : 'Sin dato actual')
+            h('small', {}, current ? current.period + ' · ' + currentMeta.name : 'Sin dato actual')
           )
         ),
         KpiGrid([
-          { label: 'Media del día', value: centsKwh(stats.average), detail: euroKwh(stats.average) },
+          { label: 'Media del día', value: centsKwh(stats.average), detail: 'redondeado a dos decimales' },
           { label: 'Hora más barata', value: hourLabel(stats.min.hour), detail: centsKwh(stats.min.priceKwh), className: 'period-p3' },
           { label: 'Hora más cara', value: hourLabel(stats.max.hour), detail: centsKwh(stats.max.priceKwh), className: 'period-p1' }
         ]),
