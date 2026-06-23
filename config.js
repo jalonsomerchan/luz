@@ -15,7 +15,9 @@ window.LUZ_CONFIG = {
   authScheme: 'Bearer',
   apiKeyParam: '',
 
-  // Unidad del campo `valor`: auto, eur_mwh, eur_kwh o cent_kwh.
-  // En auto, valores mayores de 5 se tratan como €/MWh y se convierten a €/kWh.
-  valorUnit: 'auto'
+  // La API luz.php entrega `valor` en €/MWh. La app lo convierte a €/kWh.
+  valorUnit: 'eur_mwh',
+
+  // Fecha mínima para paneles de histórico completo.
+  historicalStartDate: '2000-01-01'
 };
