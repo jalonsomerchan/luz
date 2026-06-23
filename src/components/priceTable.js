@@ -1,5 +1,5 @@
 import { h } from '../utils/dom.js';
-import { centsKwh, euroKwh, hourLabel } from '../utils/format.js';
+import { centsKwh, hourLabel } from '../utils/format.js';
 import { periodMeta } from '../utils/electricity.js';
 
 export function PriceTable(items = [], options = {}) {
@@ -12,7 +12,7 @@ export function PriceTable(items = [], options = {}) {
     h('div', { class: 'section-head' },
       h('div', {},
         h('h2', { class: 'section-title' }, options.title || 'Tabla por horas'),
-        h('p', { class: 'section-subtitle' }, options.subtitle || 'Precio estimado en €/kWh y c€/kWh')
+        h('p', { class: 'section-subtitle' }, options.subtitle || 'Precio en €/kWh, redondeado a dos decimales')
       )
     ),
     h('div', { class: 'responsive-table' },
@@ -27,10 +27,10 @@ export function PriceTable(items = [], options = {}) {
           sorted.map((item) => {
             const meta = periodMeta(item.period);
             const marker = item.priceKwh === cheapest ? 'Más barata' : item.priceKwh === expensive ? 'Más cara' : '';
-            return h('tr', { class: `${meta.className} ${item.hour === options.currentHour ? 'is-current-row' : ''}` },
+            return h('tr', { class: meta.className + ' ' + (item.hour === options.currentHour ? 'is-current-row' : '') },
               h('td', {}, hourLabel(item.hour)),
-              h('td', {}, h('span', { class: `period-badge ${meta.className}` }, item.period, ' · ', meta.name)),
-              h('td', {}, h('strong', {}, centsKwh(item.priceKwh)), h('small', {}, euroKwh(item.priceKwh))),
+              h('td', {}, h('span', { class: 'period-badge ' + meta.className }, item.period, ' · ', meta.name)),
+              h('td', {}, h('strong', {}, centsKwh(item.priceKwh))),
               h('td', {}, marker ? h('span', { class: 'status-pill' }, marker) : h('span', { class: 'muted' }, '—'))
             );
           })
@@ -50,7 +50,7 @@ export function DaySummaryTable(dayStats = []) {
       h('table', {},
         h('thead', {}, h('tr', {}, h('th', {}, 'Día'), h('th', {}, 'Media'), h('th', {}, 'Mínimo'), h('th', {}, 'Máximo'), h('th', {}, 'Mejor hora'))),
         h('tbody', {}, dayStats.map((day) => h('tr', {},
-          h('td', {}, h('a', { href: `#/buscar?fecha=${day.date}` }, day.date)),
+          h('td', {}, h('a', { href: '#/buscar?fecha=' + day.date }, day.date)),
           h('td', {}, centsKwh(day.stats.average)),
           h('td', {}, centsKwh(day.stats.min.priceKwh)),
           h('td', {}, centsKwh(day.stats.max.priceKwh)),
