@@ -1,6 +1,7 @@
 export const APP_NAME = 'Luz al día';
 export const DEFAULT_API_BASE = 'https://alon.one/api/luz';
 export const CACHE_TTL_MS = 30 * 60 * 1000;
+export const DEFAULT_HISTORICAL_START = '2000-01-01';
 
 export const PERIODS = {
   P3: {
