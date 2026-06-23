@@ -39,9 +39,12 @@ export function HomePage() {
     clear(container);
     container.append(loading('Consultando la API...'));
     try {
-      const items = await Api.day(today);
+      const [items, currentFromApi] = await Promise.all([
+        Api.today(),
+        Api.current().catch(() => null)
+      ]);
       const stats = analyzeDay(items);
-      const current = CurrentPrice(items);
+      const current = currentFromApi?.date === today ? currentFromApi : CurrentPrice(items);
       clear(container);
 
       if (!stats) {

@@ -234,6 +234,23 @@ tr.is-current-row { background: var(--brand-soft); }
 }
 .top-hour span { color: var(--muted); font-weight: 900; }
 .top-hour small { font-weight: 900; }
+
+.hour-average-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
+  gap: .55rem;
+}
+.hour-average-card {
+  padding: .72rem;
+  display: grid;
+  gap: .18rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--surface-strong) 70%, transparent);
+}
+.hour-average-card strong { font-size: .82rem; color: var(--muted); }
+.hour-average-card span { font-size: 1.12rem; font-weight: 900; letter-spacing: -.04em; }
+.hour-average-card small { color: var(--muted); font-weight: 800; }
 @media (max-width: 760px) {
   .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .bar-chart { height: 220px; gap: .18rem; }

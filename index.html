@@ -17,6 +17,19 @@
     <noscript>Necesitas activar JavaScript para consultar el precio de la luz.</noscript>
     <div id="app"></div>
     <script src="./config.js"></script>
-    <script type="module" src="./src/app.js"></script>
+    <script>
+      window.__LUZ_CONFIG_READY__ = fetch('./config.generated.js', { cache: 'no-store' })
+        .then((response) => response.ok ? response.text() : '')
+        .then((code) => {
+          if (code.trim()) {
+            (0, eval)(code);
+          }
+        })
+        .catch(() => {});
+    </script>
+    <script type="module">
+      await window.__LUZ_CONFIG_READY__;
+      await import('./src/app.js');
+    </script>
   </body>
 </html>

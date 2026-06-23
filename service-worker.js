@@ -1,4 +1,4 @@
-const CACHE_NAME = 'luz-al-dia-v1';
+const CACHE_NAME = 'luz-al-dia-v3';
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -46,6 +46,14 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
+  if (url.pathname.endsWith('/config.generated.js')) {
+    event.respondWith(
+      fetch(event.request, { cache: 'no-store' })
+        .then((response) => response.ok ? response : new Response('', { headers: { 'Content-Type': 'application/javascript' } }))
+        .catch(() => new Response('', { headers: { 'Content-Type': 'application/javascript' } }))
+    );
+    return;
+  }
   if (url.origin.includes('alon.one')) return;
   event.respondWith(
     caches.match(event.request).then((cached) => cached || fetch(event.request).then((response) => {

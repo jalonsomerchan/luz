@@ -94,3 +94,18 @@ export function consumptionCost(items = [], kwh = 1) {
   const stats = analyzeDay(items);
   return stats ? stats.average * kwh : null;
 }
+
+export function groupItemsByDate(items = [], dates = null) {
+  const byDate = new Map();
+  items.forEach((item) => {
+    if (!byDate.has(item.date)) byDate.set(item.date, []);
+    byDate.get(item.date).push(item);
+  });
+  const keys = dates || [...byDate.keys()].sort();
+  return keys.map((date) => ({
+    date,
+    ok: byDate.has(date),
+    items: (byDate.get(date) || []).sort((a, b) => a.hour - b.hour),
+    error: byDate.has(date) ? null : 'Sin datos'
+  }));
+}
