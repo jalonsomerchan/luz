@@ -1,4 +1,4 @@
-const CACHE_NAME = 'luz-al-dia-v3';
+const CACHE_NAME = 'luz-al-dia-v4';
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -25,7 +25,9 @@ const CORE_ASSETS = [
   './src/pages/weekPage.js',
   './src/pages/monthPage.js',
   './src/pages/searchPage.js',
+  './src/pages/comparePage.js',
   './src/pages/statsPage.js',
+  './src/pages/historyPage.js',
   './src/pages/notFoundPage.js',
   './src/styles/base.css',
   './src/styles/layout.css',
